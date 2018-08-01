@@ -1,19 +1,17 @@
-const express = require('express')
-const bodyParser = require('body-parser')
+const express = require('express');
+const bodyParser = require('body-parser');
 
-const app = express()
+const app = express();
 
-app.use(bodyParser.urlencoded({ extended: false }))
-app.use('/static', express.static('public'))
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use('/static', express.static('public'));
 
-app.set('view engine', 'pug')
+app.set('view engine', 'ejs');
 
-const mainRoutes = require('./routes')
-const help = require('./routes/help')
+const mainRoutes = require('./routes');
 
-app.use(mainRoutes)
-app.use('/help', help)
+app.use(mainRoutes);
 
 app.listen(8000, () => {
-  console.log('App Movie Shop started')
-})
+  console.log('App Movie Shop started');
+});
