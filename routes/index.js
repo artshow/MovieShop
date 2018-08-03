@@ -6,6 +6,8 @@ const _ = require('lodash');
 //const movies = require('../data/data.json');
 //MODELS
 const { Movie } = require('../models/movie');
+//MIDLEWARE
+const { authentificate } = require('../middleware/authentificate');
 
 /**
  * Home
@@ -29,7 +31,7 @@ router.get('/movies', (req, res) => {
  * @param void
  * @return JSON movies
  */
-router.get('/apimovies', (req, res) => {
+router.get('/apimovies', authentificate, (req, res) => {
   Movie.find({})
     .sort({ id: 1 })
     .then(movies => res.json(movies))
@@ -43,7 +45,7 @@ router.get('/apimovies', (req, res) => {
  * @param Int id
  * @return movie
  */
-router.get('/movies/:id', (req, res) => {
+router.get('/movies/:id', authentificate, (req, res) => {
   const { params } = req;
   const { id } = params;
 
@@ -64,15 +66,17 @@ router.get('/movies/:id', (req, res) => {
  * @param void
  * @return save movie
  */
-router.post('/movies', (req, res) => {
+router.post('/movies', authentificate, (req, res) => {
   const { body } = req;
   const data = _.pick(body, ['name', 'gender', 'date', 'synopsis']);
 
   const movie = new Movie(data);
+  movie.alphabet_v = movie.name;
 
   movie
     .save()
     .then(movie => {
+      console.log(movie);
       res.redirect('/movies/' + movie._id);
     })
     .catch(e => {
@@ -87,7 +91,7 @@ router.post('/movies', (req, res) => {
  * @param Int id
  * @return movie
  */
-router.get('/movies/:id/delete', (req, res) => {
+router.get('/movies/:id/delete', authentificate, (req, res) => {
   const { params } = req;
   const { id } = params;
   console.log(id);
@@ -108,7 +112,7 @@ router.get('/movies/:id/delete', (req, res) => {
  * @param Int id
  * @return movie updated
  */
-router.post('/movies/:id/update', (req, res) => {
+router.post('/movies/:id/update', authentificate, (req, res) => {
   const { body } = req;
 
   const data = _.pick(body, ['name', 'gender', 'date', 'synopsis']);
@@ -117,6 +121,16 @@ router.post('/movies/:id/update', (req, res) => {
     .then(movie => {
       res.render('movie', { movie });
       console.log('movie', movie);
+    })
+    .catch(e => {
+      console.log('error', e);
+    });
+});
+
+router.get('/categories', authentificate, (req, res) => {
+  Movie.findByGender('comique')
+    .then(movies => {
+      res.render('movies', { movies });
     })
     .catch(e => {
       console.log('error', e);

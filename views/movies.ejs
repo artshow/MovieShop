@@ -55,7 +55,7 @@
 		<h3 class="text-center"> List films </h3>
 		<ul class="list-group m-5 text-center col-xs-12 col-md-8 col-lg-6 mx-auto">
 			<% movies.forEach((movie) => { %>
-				<li class="list-group-item"><%= movie.name%></li>
+				<li class="list-group-item"><%= movie.alphabet %></li>
         <li class="list-group-item"><%= movie.date%></li>
         <li class="list-group-item"><%= movie.gender%></li>
         <a href="/movies/<%= movie.id%>" class="card-link text-center mb-5"> Consulter ce film  </a>
