@@ -3,24 +3,24 @@
     "id": 1,
     "name": "Armageddon",
     "date": 2018,
-    "genre": "Action"
+    "gender": "Action"
   },
   {
     "id": 2,
     "name": "Spiderman",
     "date": 2018,
-    "genre": "Action"
+    "gender": "Action"
   },
   {
     "id": 3,
     "name": "Terminator",
     "date": 2012,
-    "genre": "Amour"
+    "gender": "Amour"
   },
   {
     "id": 4,
     "name": "Jacquie et sa dodoche",
     "date": 1999,
-    "genre": "Thriller"
+    "gender": "Thriller"
   }
 ]

@@ -1,11 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const { mongoose } = require('./db/mongoose');
 
 const app = express();
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/static', express.static('public'));
-
 app.set('view engine', 'ejs');
 
 const mainRoutes = require('./routes');

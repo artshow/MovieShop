@@ -14,10 +14,12 @@
     <a href='/movies'>Home</a>
     <div class="card">
       <div class="card-body text-center">
-		  	<p> <%= movie.name %> </p>
-        <p> <%= movie.id %> </p>
-				<p> <%= movie.genre %> </p>
-				<p> <%= movie.date %> </p>
+
+		  	<p>Name : <%= movie.name %> </p>
+        <p>ID : <%= movie.id %> </p>
+				<p>Gender : <%= movie.gender %> </p>
+				<p> Date : <%= movie.date %> </p>
+        <p> Synopsis :<%= movie.synopsis %> </p>
   			<button type="button" class="btn btn-danger" data-toggle="modal" data-target="#delete">
   				Delete <%= movie.name %>
   			</button>
@@ -43,9 +45,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-					<form method='POST', action="delete/<%= movie.id%>">
-            <button type="submit" class="btn btn-danger">Delete <%= movie.name %></button>
-				  </form>
+          <a href="/movies/<%= movie.id%>/delete">Delete movie</a>
         </div>
       </div>
     </div>
@@ -63,18 +63,18 @@
         </button>
       </div>
       <div class="modal-body">
-        <form action="/" method="post">
-          <label for="update-name"> Name : </label>
-          <input type="text" class="form-control" id="update-name" name="update-name" placeholder="Update the name" value="<%= movie.name %>">
-          <label for="update-genre"> Gender : </label>
-          <input type="text" class="form-control" id="update-genre" name="update-genre" placeholder="Update the genre" value="<%= movie.genre %>">
-          <label for="update-date"> Date : </label>
-          <input type="text" class="form-control" id="update-date" name="update-date" placeholder="Update the date" value="<%= movie.date %>">
-        </form>
+        <form name="form" method="POST" action="/movies/<%= movie.id%>/update">
+          <label for="name"> Name : </label>
+          <input type="text" class="form-control" id="name" name="name" placeholder="Update the name" value="<%= movie.name %>">
+          <label for="gender"> Gender : </label>
+          <input type="text" class="form-control" id="gender" name="gender" placeholder="Update the gender" value="<%= movie.gender %>">
+          <label for="date"> Date : </label>
+          <input type="text" class="form-control" id="date" name="date" placeholder="Update the date" value="<%= movie.date %>">
+          <label for="synopsis">Synopsis</label>
+          <textarea type="text" class="form-control" id="synopsis" name="synopsis" value="<%= movie.synopsis %>" rows="10" cols="50"><%= movie.synopsis%></textarea>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <form method='POST', action="update/<%= movie.id%>">
           <button type="submit" class="btn btn-danger">Update</button>
         </form>
       </div>
