@@ -127,8 +127,15 @@ router.post('/movies/:id/update', authentificate, (req, res) => {
     });
 });
 
+/**
+ * Search categories
+ * Trouve les films par catégories
+ * @method GET
+ * @param void
+ * @return movies in categories
+ */
 router.get('/categories', authentificate, (req, res) => {
-  Movie.findByGender('comique')
+  Movie.findByGender('amour')
     .then(movies => {
       res.render('movies', { movies });
     })
@@ -137,6 +144,121 @@ router.get('/categories', authentificate, (req, res) => {
     });
 });
 
+/**
+ * Count films in categories
+ * Count des films dans la categorie
+ * @method GET
+ * @param String gender
+ * @return Int
+ */
+router.get('/:gender/count', authentificate, (req, res) => {
+  const { params } = req;
+  const { gender } = params;
+
+  Movie.countByGender(gender)
+    .then(count => {
+      res.send('count ' + count);
+      console.log(count);
+    })
+    .catch(e => {
+      console.log(e);
+    });
+});
+
+/**
+ * Add actors
+ * ajout du first et du lastname dans un film
+ * @method GET
+ * @param Object actors
+ * @return movie
+ */
+router.get('/movie/actors', (req, res) => {
+  const id = '5b641610d746600e86385cc4';
+
+  // Get movie before add actors
+  Movie.findOne({ _id: id })
+    .then(movie => {
+      console.log(movie);
+      // Add actors studio
+      movie
+        .registerActors({
+          lastname: 'COUCOU COUCOU',
+          firstname: 'HHAHAHAHHAA'
+        })
+        .then(movie => {
+          res.send(movie);
+        })
+        .catch(e => {
+          res.status(404).send('Cannot add actor');
+        });
+    })
+    .catch(e => {
+      console.log(e);
+    });
+});
+
+/**
+ * Delete actors
+ * Supression d'un actor avec l'id
+ * @method GET
+ * @param int id
+ * @return movie with actors filtered
+ */
+router.get('/movie/deleteActors', (req, res) => {
+  const id = '5b641610d746600e86385cc4';
+
+  const idActorsDeleted = '5b646978d7ce0f3306376aa3';
+
+  Movie.findOne({ _id: id }).then(movie => {
+    console.log('MOVIE', movie);
+    movie
+      .deleteActors(idActorsDeleted)
+      .then(actors => {
+        res.send(actors);
+      })
+      .catch(e => {
+        res.status(404).send('Cannot delete actor');
+      });
+  });
+});
+
+/**
+ * Add productors
+ * ajout du first et du lastname dans un film d'un productor
+ * @method GET
+ * @param Object productors
+ * @return movie
+ */
+router.get('/movie/productors', (req, res) => {
+  const id = '5b641610d746600e86385cc4';
+
+  Movie.findOne({ _id: id })
+    .then(movie => {
+      console.log(movie);
+      movie
+        .registerProductors({
+          lastname: 'Marlot',
+          firstname: 'Tanguy'
+        })
+        .then(movie => {
+          res.send(movie);
+        })
+        .catch(e => {
+          res.status(404).send('Cannot add productor');
+        });
+    })
+    .catch(e => {
+      console.log(e);
+    });
+});
+
+/**
+ * test
+ * TEST
+ * @method GET
+ * @param void
+ * @return ALL METHODS UPDATE, DELETE,
+ */
 router.get('/test', (req, res) => {
   // const movie = new Movie({
   //   name: 'le film a supprimé',
